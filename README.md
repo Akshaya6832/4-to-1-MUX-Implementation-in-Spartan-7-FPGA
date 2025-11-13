@@ -58,20 +58,17 @@ A **4:1 multiplexer** selects one of four data inputs (i0..i3) and routes it to 
 
 ```verilog
 `timescale 1ns / 1ps
-module mux4to1 (
-    input  wire i0,
-    input  wire i1,
-    input  wire i2,
-    input  wire i3,
-    input  wire [1:0] sel,
-    output wire y
-);
-    //
---
---
---
-
-   endmodule
+module MUX41(I,S,y);
+input [3:0]I;
+input [1:0]S;
+output y;
+wire [4:1]w;
+assign w[1] = I[0] & (~S[1]) & (~S[0]);
+assign w[2] = I[1] & (~S[1]) & S[0];
+assign w[3] = I[2] & S[1] & (~S[0]);
+assign w[4] = I[3] & S[1] & S[0];
+assign y = w[1] | w[2] | w[3] | w[4];
+endmodule
 ```
 ## Constraint file for Seven-Segment Display
 ```
@@ -79,8 +76,8 @@ set_property -dict {PACKAGE_PIN V2 IOSTANDARD LVCMOS33} [get_ports {I[0]}]
 set_property -dict {PACKAGE_PIN U2 IOSTANDARD LVCMOS33} [get_ports {I[1]}]
 set_property -dict {PACKAGE_PIN U1 IOSTANDARD LVCMOS33} [get_ports {I[2]}]
 set_property -dict {PACKAGE_PIN T2 IOSTANDARD LVCMOS33} [get_ports {I[3]}]
-set_property -dict {PACKAGE_PIN K2 IOSTANDARD LVCMOS33} [get_ports {sel[0]}]
-set_property -dict {PACKAGE_PIN K1 IOSTANDARD LVCMOS33} [get_ports {sel[1]}]
+set_property -dict {PACKAGE_PIN K2 IOSTANDARD LVCMOS33} [get_ports {S[0]}]
+set_property -dict {PACKAGE_PIN K1 IOSTANDARD LVCMOS33} [get_ports {S[1]}]
 set_property -dict {PACKAGE_PIN G1 IOSTANDARD LVCMOS33} [get_ports {y}]
 ```
 ## FPGA Implementation Output
