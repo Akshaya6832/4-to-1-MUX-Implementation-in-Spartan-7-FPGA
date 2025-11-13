@@ -57,7 +57,6 @@ A **4:1 multiplexer** selects one of four data inputs (i0..i3) and routes it to 
 ## Verilog Program (`mux4to1.v`)
 
 ```verilog
-`timescale 1ns / 1ps
 module MUX41(I,S,y);
 input [3:0]I;
 input [1:0]S;
